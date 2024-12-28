@@ -3,7 +3,7 @@ FROM alpine:latest
 # Add the edge community repository for additional PHP packages
 RUN echo "http://dl-cdn.alpinelinux.org/alpine/edge/community" >> /etc/apk/repositories
 
-# Install system dependencies and PHP 8.2
+# Install system dependencies and PHP 8.2 along with necessary build tools
 RUN apk --update --no-cache add \
     curl \
     ca-certificates \
@@ -42,24 +42,22 @@ RUN apk --update --no-cache add \
     php82-tokenizer \
     php82-simplexml \
     php82-dev \
+    php82-pear \
     gcc \
     g++ \
     make \
     autoconf \
     build-base \
-    git \
     openssl-dev
 
-# Download and compile MongoDB PHP extension
-RUN mkdir -p /usr/src/php/ext/mongodb \
-    && curl -L https://github.com/mongodb/mongo-php-driver/archive/refs/tags/1.14.2.tar.gz | tar -xz -C /usr/src/php/ext/mongodb --strip-components=1 \
-    && cd /usr/src/php/ext/mongodb \
-    && phpize82 \
-    && ./configure --with-php-config=/usr/bin/php-config82 \
-    && make \
-    && make install \
+# Ensure pecl is available
+RUN ln -s /usr/bin/pecl82 /usr/bin/pecl \
+    && pecl version
+
+# Install MongoDB PHP extension using pecl
+RUN pecl install mongodb \
     && echo "extension=mongodb.so" > /etc/php82/conf.d/00_mongodb.ini \
-    && rm -rf /var/cache/apk/* /usr/src/php/ext/mongodb
+    && rm -rf /var/cache/apk/*
 
 # Copy Composer from its official image
 COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
