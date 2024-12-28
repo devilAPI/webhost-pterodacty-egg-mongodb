@@ -56,6 +56,7 @@ RUN ln -s /usr/bin/pecl82 /usr/bin/pecl \
 
 # Install MongoDB PHP extension using pecl
 RUN pecl install mongodb \
+    && mkdir -p /home/container/php-fpm/conf.d \
     && echo "extension=mongodb.so" > /home/container/php-fpm/conf.d/00_mongodb.ini \
     && rm -rf /var/cache/apk/*
 
