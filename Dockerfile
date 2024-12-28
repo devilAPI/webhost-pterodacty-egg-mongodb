@@ -1,13 +1,10 @@
-FROM alpine:3.17
+FROM alpine:latest
 
-# Install base dependencies
+# Install system dependencies
 RUN apk --update --no-cache add \
     curl \
     ca-certificates \
-    nginx
-
-# Install PHP and essential extensions
-RUN apk add --no-cache \
+    nginx \
     php8 \
     php8-xml \
     php8-exif \
@@ -40,19 +37,16 @@ RUN apk add --no-cache \
     php8-fileinfo \
     php8-mbstring \
     php8-tokenizer \
-    php8-simplexml
-
-# Install build tools and PHP development packages
-RUN apk add --no-cache \
+    php8-simplexml \
     php8-dev \
     gcc \
     g++ \
     make \
     autoconf
 
-# Install MongoDB PHP extension using pecl
+# Install MongoDB PHP extension
 RUN pecl install mongodb \
-    && echo "extension=mongodb.so" > /etc/php8/conf.d/mongodb.ini \
+    && echo "extension=mongodb.so" > /home/container/php-fpm/conf.d/mongodb.ini \
     && rm -rf /var/cache/apk/*
 
 # Copy Composer from its official image
