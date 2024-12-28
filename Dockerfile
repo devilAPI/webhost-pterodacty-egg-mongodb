@@ -47,12 +47,19 @@ RUN apk --update --no-cache add \
     make \
     autoconf \
     build-base \
-    php82-pear
+    git \
+    openssl-dev
 
-# Install MongoDB PHP extension using pecl
-RUN pecl install mongodb \
+# Download and compile MongoDB PHP extension
+RUN mkdir -p /usr/src/php/ext/mongodb \
+    && curl -L https://github.com/mongodb/mongo-php-driver/archive/refs/tags/1.14.2.tar.gz | tar -xz -C /usr/src/php/ext/mongodb --strip-components=1 \
+    && cd /usr/src/php/ext/mongodb \
+    && phpize82 \
+    && ./configure --with-php-config=/usr/bin/php-config82 \
+    && make \
+    && make install \
     && echo "extension=mongodb.so" > /etc/php82/conf.d/00_mongodb.ini \
-    && rm -rf /var/cache/apk/*
+    && rm -rf /var/cache/apk/* /usr/src/php/ext/mongodb
 
 # Copy Composer from its official image
 COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
