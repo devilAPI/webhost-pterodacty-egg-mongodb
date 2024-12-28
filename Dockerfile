@@ -56,7 +56,7 @@ RUN ln -s /usr/bin/pecl82 /usr/bin/pecl \
 
 # Install MongoDB PHP extension using pecl
 RUN pecl install mongodb \
-    && echo "extension=mongodb.so" > /etc/php82/conf.d/00_mongodb.ini \
+    && echo "extension=mongodb.so" > /home/container/php-fpm/conf.d/00_mongodb.ini \
     && rm -rf /var/cache/apk/*
 
 # Copy Composer from its official image
