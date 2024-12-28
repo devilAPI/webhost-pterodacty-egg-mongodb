@@ -41,7 +41,6 @@ RUN apk --update --no-cache add \
     php-mbstring \
     php-tokenizer \
     php-simplexml \
-    php-dev \
     gcc \
     g++ \
     make \
