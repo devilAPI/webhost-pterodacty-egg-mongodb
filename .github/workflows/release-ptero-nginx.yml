@@ -32,4 +32,3 @@ jobs:
           file: ./Dockerfile
           platforms: linux/amd64,linux/arm64
           push: true
-          tags: ghcr.io/devilAPI/nginx-ptero-mongodb:8.1
