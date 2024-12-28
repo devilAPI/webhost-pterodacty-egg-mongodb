@@ -1,7 +1,12 @@
 name: Nginx 8.1
 
 on:
-  workflow_dispatch:
+  push:
+    paths:
+      - '**/*' # Runs for any file change
+      # Specify specific files or directories if needed:
+      # - 'path/to/file'
+      # - 'path/to/directory/**'
 
 jobs:
   push:
