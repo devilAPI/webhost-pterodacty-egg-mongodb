@@ -1,4 +1,4 @@
-name: Nginx 8.1 + mongoDB
+name: Nginx 8.2 + mongoDB
 
 on:
   push:
