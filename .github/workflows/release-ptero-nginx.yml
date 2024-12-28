@@ -1,12 +1,9 @@
-name: Nginx 8.1 + mongoDB
+name: Nginx 8.1
 
 on:
   push:
     paths:
       - '**/*' # Runs for any file change
-      # Specify specific files or directories if needed:
-      # - 'path/to/file'
-      # - 'path/to/directory/**'
 
 jobs:
   push:
@@ -23,12 +20,13 @@ jobs:
           buildkitd-flags: --debug
       - uses: docker/login-action@v1
         with:
-          registry: ghcr.io
-          username: ${{ github.repository_owner }}
-          password: ${{ secrets.PUSH_TOKEN }}
+          registry: docker.io
+          username: ${{ secrets.DOCKER_USERNAME }}
+          password: ${{ secrets.DOCKER_PASSWORD }}
       - uses: docker/build-push-action@v2
         with:
           context: ./
           file: ./Dockerfile
           platforms: linux/amd64,linux/arm64
           push: true
+          tags: devilapi/nginx-ptero-mongodb:8.1
