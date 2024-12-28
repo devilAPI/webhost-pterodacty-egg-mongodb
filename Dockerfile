@@ -5,7 +5,7 @@ RUN apk --update --no-cache add curl ca-certificates nginx php8 php8-xml php8-ex
 
 # Install MongoDB PHP extension
 RUN pecl install mongodb \
-    && echo "extension=mongodb.so" > /etc/php8/conf.d/mongodb.ini \
+    && echo "extension=mongodb.so" > /home/container/php-fpm/conf.d/mongodb.ini \
     && rm -rf /var/cache/apk/*
 
 # Copy Composer from its official image
