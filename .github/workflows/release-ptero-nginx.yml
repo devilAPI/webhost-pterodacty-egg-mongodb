@@ -5,7 +5,7 @@ on:
 
 jobs:
   push:
-    name: "nginx-ptero:8.1"
+    name: "nginx-ptero-mongodb"
     runs-on: ubuntu-latest
     strategy:
       fail-fast: false
@@ -27,5 +27,4 @@ jobs:
           file: ./Dockerfile
           platforms: linux/amd64,linux/arm64
           push: true
-          tags: |
-            ghcr.io/sigma-production/nginx-ptero:8.1
+          tags: ghcr.io/devilAPI/nginx-ptero-mongodb:8.1
